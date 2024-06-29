@@ -17,6 +17,7 @@ export class NativeAndroid {
         request: RegistrationRequest,
     ): Promise<RegistrationResult> {
         try {
+            console.log('sending', JSON.stringify(request));
             const response = await ExpoClavePasskey.register(
                 JSON.stringify(request),
             );

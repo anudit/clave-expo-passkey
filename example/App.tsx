@@ -8,13 +8,47 @@ export default function App() {
     const supported = Passkey.isSupported();
 
     async function createPasskey() {
-        const passkey = await Passkey.create('test', 'test', 'deadbeef');
+        const passkey = await Passkey.create(
+            {
+                displayName: 'User-DisplayName',
+                id: 'dXNlcg==',
+                name: 'User-Name',
+            },
+            '0x737472696e676368616c6c656e6765',
+            {
+                rp: {
+                    id: 'vault.omnid.io',
+                    name: 'Clave',
+                },
+                attestation: 'direct',
+                authenticatorSelection: {
+                    authenticatorAttachment: 'platform',
+                    requireResidentKey: true,
+                    residentKey: 'required',
+                    userVerification: 'required',
+                },
+            },
+        );
+        console.log(JSON.stringify(passkey));
         setResult(JSON.stringify(passkey));
     }
 
     async function signWithPasskey() {
-        const signature = await Passkey.sign([], 'deadbeef');
+        const res = JSON.parse(result);
+        const signature = await Passkey.authenticate(
+            [res['id']],
+            '0x737472696e676368616c6c656e6765',
+            {
+                rpId: 'vault.omnid.io',
+                timeout: 30000,
+            },
+        );
+        console.log(signature);
         setResult(JSON.stringify(signature));
+    }
+
+    async function log() {
+        console.log(result);
     }
 
     return (
@@ -23,6 +57,7 @@ export default function App() {
             <Text>Result: {result}</Text>
             <Button onPress={createPasskey} title="Create Passkey" />
             <Button onPress={signWithPasskey} title="Sign with Passkey" />
+            <Button onPress={log} title="log" />
         </View>
     );
 }

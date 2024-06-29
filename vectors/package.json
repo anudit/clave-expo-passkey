@@ -1,0 +1,14 @@
+{
+  "name": "vectors",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "base64url": "^3.0.1"
+  }
+}

@@ -76,6 +76,7 @@ export class NativeError extends Error {
 }
 
 export function handleNativeError(_error: unknown): Error {
+    console.log('Error', _error);
     if (typeof _error !== 'object') {
         return new UnknownError();
     }
